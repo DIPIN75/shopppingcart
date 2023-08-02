@@ -1,0 +1,56 @@
+{% extends 'shop/layouts/main.html' %}
+{% load static %}
+{% block title %}
+ShopKart | Online Shopping
+{% endblock title %}
+
+{% block content %}
+<style>
+ .card-img-top {
+    height: 300px;
+    object-fit: cover;
+    }
+</style>
+<section class="bg-light py-4 my-5" style="min-height:600px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h4 class="mb-3">{{category_name}} Products</h4>
+        <hr style="border-color:#b8bfc2;">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active">{{category_name}} Collection</li>
+          </ol>
+        </nav>
+        {% include 'shop/inc/message.html' %}
+      </div>
+      {% for item in products %}
+      <div class="col-md-4 col-lg-3">
+        <div class="card my-3">
+          <img src="{{item.product_image.url}}"  class="card-image-top" alt="">
+          <a href="{% url 'product_details' category_name item.name %}">
+          <div class="card-body">
+            <h5 class="text-center my-2 text-primary">{{item.name | upper }}</h5>
+            <p class="card-text">
+              <span class="float-start old_price"><s>Rs.{{ item.original_price | stringformat:'d'}}</s></span>
+              <span class="float-end new_price">Rs.{{ item.selling_price | stringformat:'d' }}</span>
+               <a href="{% url 'product_details' category_name item.name %}"class="btn btn-success  col-12 " role="button">View More</a>
+              <div class="row">
+               <div class="col-10">
+<!--                <h6 class="float-start old_price">Current Price : Rs. <s>{{item.original_price}}</s></h6>-->
+<!--                <h5 class="float-end new_price">Offer Price   : Rs.{{item.selling_price }}</h5>-->
+               </div>
+             </div>
+            </p>
+          </div>
+        </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
